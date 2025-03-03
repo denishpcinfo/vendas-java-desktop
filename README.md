@@ -1,8 +1,9 @@
 # Aplicativo de vendas, desenvolvido em Java, para gerenciamento de vendas.
 
 📌 Funcionalidades
-- Cadastro de produtos, clientes, fornecedores e funcionários
+- Cadastro de produtos, clientes e fornecedores
 - Gerenciamento de vendas e estoque
+- Relatórios de vendas
 - Interface gráfica amigável com Java Swing
 - Integração com banco de dados MySQL
 
