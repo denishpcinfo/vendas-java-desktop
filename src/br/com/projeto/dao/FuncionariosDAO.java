@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
  
 public class FuncionariosDAO {
@@ -28,6 +29,9 @@ public class FuncionariosDAO {
     public void cadastrarFuncionarios(Funcionarios obj) {
         try {
 
+            String senhaCriptografada = BCrypt.hashpw(obj.getSenha(), BCrypt.gensalt());
+
+            
             //1 passo  - criar o comando sql
             String sql = "insert into tb_funcionarios (nome,rg,cpf,email,senha,cargo,nivel_acesso,telefone,celular,cep,endereco,numero,complemento,bairro,cidade,estado) "
                     + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -38,7 +42,7 @@ public class FuncionariosDAO {
             stmt.setString(2, obj.getRg());
             stmt.setString(3, obj.getCpf());
             stmt.setString(4, obj.getEmail());
-            stmt.setString(5, obj.getSenha());
+            stmt.setString(5, senhaCriptografada);
             stmt.setString(6, obj.getCargo());
             stmt.setString(7, obj.getNivel_acesso());
             stmt.setString(8, obj.getTelefone());
@@ -276,40 +280,49 @@ public class FuncionariosDAO {
         try {
 
             //1 passo - SQL
-            String sql = "select * from tb_funcionarios where email = ? and senha = ?";
+            String sql = "select * from tb_funcionarios where email = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
-            stmt.setString(2, senha);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 //Usuario logou
 
-                //Caso o usuario seja do tipo admin
-                if (rs.getString("nivel_acesso").equals("Admin")) {
+                    String senhaArmazenada = rs.getString("senha");
+    
+                    if (BCrypt.checkpw(senha, senhaArmazenada)) {
+                        
+                        //Caso o usuario seja do tipo admin
+                        if (rs.getString("nivel_acesso").equals("Admin")) {
 
-                    JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema");
-                    Frmmenu tela = new Frmmenu();
-                    tela.usuariologado = rs.getString("nome");
-                    
-                    tela.setVisible(true);
-                } 
+                            JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema");
+                            Frmmenu tela = new Frmmenu();
+                            tela.usuariologado = rs.getString("nome");
 
-//Caso o usuario seja do tipo limitado 
-                else if (rs.getString("nivel_acesso").equals("Usuário")) {
-                    
-                    JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema");
-                    Frmmenu tela = new Frmmenu();
-                    tela.usuariologado = rs.getString("nome");
-                    
-                    //Desabilitar os menus
-                    tela.menu_posicao.setEnabled(false);
-                    tela.menu_controlevendas.setVisible(false);
-                   
-                    tela.setVisible(true);
+                            tela.setVisible(true);
+                        } 
 
-                }
+                        //Caso o usuario seja do tipo limitado 
+                        else if (rs.getString("nivel_acesso").equals("Usuário")) {
+
+                            JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema");
+                            Frmmenu tela = new Frmmenu();
+                            tela.usuariologado = rs.getString("nome");
+
+                            //Desabilitar os menus
+                            tela.menu_posicao.setEnabled(false);
+                            tela.menu_controlevendas.setVisible(false);
+
+                            tela.setVisible(true);
+
+                        }
+                        
+                    } else {
+                        //Dados incorretos
+                        JOptionPane.showMessageDialog(null, "Dados incorretos!");
+                        new FrmLogin().setVisible(true);
+                    }
 
             } else {
                 //Dados incorretos

@@ -11,7 +11,7 @@ public class ConnectionFactory {
 
         try {
 
-            return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3309/bdvendas", "root", "eusou100");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/bdvendas", "root", "eusou100");
 
         } catch (Exception erro) {
             throw new RuntimeException(erro);
