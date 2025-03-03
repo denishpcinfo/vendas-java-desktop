@@ -26,7 +26,7 @@
 🔧 Configuração Banco de Dados Docker
 1. Crie um banco de dados no MySQL:
     ```sql
-    CREATE DATABASE BDVENDAS;
+    CREATE DATABASE vendas_db;
     ```
 2. Configure as credenciais de conexão no arquivo de configuração do projeto.
 

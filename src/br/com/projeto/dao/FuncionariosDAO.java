@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -72,6 +74,13 @@ public class FuncionariosDAO {
     public void alterarFuncionario(Funcionarios obj) {
         try {
 
+            
+            if (!isEmailValido(obj.getEmail())) {
+                JOptionPane.showMessageDialog(null, "Email inválido! Digite um email no formato correto.");
+            }
+                    
+             String senhaCriptografadaUpDate = BCrypt.hashpw(obj.getSenha(), BCrypt.gensalt());
+                        
             //1 passo  - criar o comando sql
             String sql = "update tb_funcionarios  set  nome=?, rg=?, cpf=?, email=?, senha=?, cargo=?, nivel_acesso =?, telefone=?, celular=?, cep=?, "
                     + "endereco=?, numero=?,complemento=?,bairro=?,cidade=?, estado=?  where id =?";
@@ -83,7 +92,7 @@ public class FuncionariosDAO {
             stmt.setString(3, obj.getCpf());
             stmt.setString(4, obj.getEmail());
 
-            stmt.setString(5, obj.getSenha());
+            stmt.setString(5, senhaCriptografadaUpDate);
             stmt.setString(6, obj.getCargo());
             stmt.setString(7, obj.getNivel_acesso());
 
@@ -111,6 +120,14 @@ public class FuncionariosDAO {
         }
     }
 
+    
+    private boolean isEmailValido(String email) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(email);
+    return matcher.matches();
+    }
+    
     //Metodo Excluir Funcionario
     public void excluirFuncionario(Funcionarios obj) {
         try {

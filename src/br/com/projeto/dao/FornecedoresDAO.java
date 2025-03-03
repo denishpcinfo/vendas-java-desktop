@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
  
@@ -26,6 +28,10 @@ public class FornecedoresDAO {
     public void cadastrarFornecedores(Fornecedores obj) {
         try {
 
+            if (!isEmailValido(obj.getEmail())) {
+                JOptionPane.showMessageDialog(null, "Email inválido! Digite um email no formato correto.");
+            }
+                        
             //1 passo  - criar o comando sql
             String sql = "insert into tb_fornecedores (nome,cnpj,email,telefone,celular,cep,endereco,numero,complemento,bairro,cidade,estado) "
                     + " values (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -58,6 +64,14 @@ public class FornecedoresDAO {
 
     }
 
+    
+    private boolean isEmailValido(String email) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(email);
+    return matcher.matches();
+    }
+        
     //metodo excluir fornecedor
     public void excluirFornecedor(Fornecedores obj) {
         try {

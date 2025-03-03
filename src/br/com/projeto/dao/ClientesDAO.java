@@ -12,6 +12,8 @@ import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
  
@@ -27,6 +29,10 @@ public class ClientesDAO {
     public void cadastrarCliente(Clientes obj) {
         try {
 
+            if (!isEmailValido(obj.getEmail())) {
+                JOptionPane.showMessageDialog(null, "Email inválido! Digite um email no formato correto.");
+            }
+            
             //1 passo  - criar o comando sql
             String sql = "insert into tb_clientes (nome,rg,cpf,email,telefone,celular,cep,endereco,numero,complemento,bairro,cidade,estado) "
                     + " values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -60,6 +66,13 @@ public class ClientesDAO {
 
     }
 
+    private boolean isEmailValido(String email) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(email);
+    return matcher.matches();
+    }
+    
     //Metodo AlterarCliente
     public void alterarCliente(Clientes obj) {
         try {
