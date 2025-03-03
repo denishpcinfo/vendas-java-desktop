@@ -1,4 +1,6 @@
-
+-- usuario incial
+-- emai func@gmail.com
+-- senha 123456
 
 CREATE DATABASE BDVENDAS;
 
@@ -112,3 +114,12 @@ CREATE TABLE tb_itensvendas (
 
 
 select * from tb_clientes where nome like 'a%';
+
+
+-- usuario incial
+-- emai func@gmail.com
+-- senha 123456
+INSERT INTO bdvendas.tb_funcionarios
+(id, nome, rg, cpf, email, senha, cargo, nivel_acesso, telefone, celular, cep, endereco, numero, complemento, bairro, cidade, estado)
+VALUES(1, '', '99.999.999-99', '999.999.999-99', 'func@gmail.com', '$2a$10$/7UYUL4IrYCJTDoickRQNO2tDoOO5XaKFu8Ak.BQbpyckxgh1444y', 'meu cargo', 'Usuário', '(34) 99999 - 9999', '(34) 99999 - 9999', '99999-999', 'meu end', 100, '', 'meu bairro', 'minha cidade', 'AC');
+
