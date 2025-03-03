@@ -44,3 +44,6 @@
 2. Construa a imagem Docker do projeto:
    ```bash
    docker build -t vendas-java-desktop .
+
+
+   Em desenvolvimento!
