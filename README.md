@@ -3,7 +3,6 @@
 📌 Funcionalidades
 - Cadastro de produtos, clientes, fornecedores e funcionários
 - Gerenciamento de vendas e estoque
-- Relatórios de vendas
 - Interface gráfica amigável com Java Swing
 - Integração com banco de dados MySQL
 
