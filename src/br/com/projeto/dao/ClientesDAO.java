@@ -77,6 +77,11 @@ public class ClientesDAO {
     public void alterarCliente(Clientes obj) {
         try {
 
+            if (!isEmailValido(obj.getEmail())) {
+                JOptionPane.showMessageDialog(null, "Email inválido! Digite um email no formato correto.");
+            }
+
+            
             //1 passo  - criar o comando sql
             String sql = "update tb_clientes set  nome=?, rg=?, cpf=?, email=?, telefone=?, celular=?, cep=?, "
                     + "endereco=?, numero=?,complemento=?,bairro=?,cidade=?, estado=?  where id =?";

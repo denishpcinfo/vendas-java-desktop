@@ -31,8 +31,11 @@ public class FuncionariosDAO {
     public void cadastrarFuncionarios(Funcionarios obj) {
         try {
 
+            if (!isEmailValido(obj.getEmail())) {
+                JOptionPane.showMessageDialog(null, "Email inválido! Digite um email no formato correto.");
+            }
+            
             String senhaCriptografada = BCrypt.hashpw(obj.getSenha(), BCrypt.gensalt());
-
             
             //1 passo  - criar o comando sql
             String sql = "insert into tb_funcionarios (nome,rg,cpf,email,senha,cargo,nivel_acesso,telefone,celular,cep,endereco,numero,complemento,bairro,cidade,estado) "

@@ -100,6 +100,10 @@ public class FornecedoresDAO {
     public void alterarFornecedor(Fornecedores obj) {
         try {
 
+            if (!isEmailValido(obj.getEmail())) {
+                JOptionPane.showMessageDialog(null, "Email inválido! Digite um email no formato correto.");
+            }
+
             //1 passo  - criar o comando sql
             String sql = "update tb_fornecedores set  nome=?, cnpj=?, email=?, telefone=?, celular=?, cep=?, "
                     + "endereco=?, numero=?,complemento=?,bairro=?,cidade=?, estado=?  where id =?";
